@@ -1,32 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from '@vkontakte/vkui'
 import { TabbarItemId } from './types'
-import { TabIdContext } from './context/TabIdContext'
 import { FeedPanelContent } from './components/panels/FeedPanelContent'
 import { PanelLayout } from './components/layouts/PanelLayout'
 import { SourcesPanelContent } from './components/panels/SourcesPanelContent'
+import bridge from '@vkontakte/vk-bridge'
 
 export const App: React.FC = () => {
-  const [activePanel, setActivePanel] = useState<TabbarItemId>('feed')
+  const [activeTab, setActiveTab] = useState<TabbarItemId>('feed')
 
   let currentPanel: React.ReactNode = null
 
-  switch (activePanel) {
+  switch (activeTab) {
     case 'feed':
-      currentPanel = <FeedPanelContent />
+      // currentPanel = <FeedPanelContent />
       break
     case 'sources':
       currentPanel = <SourcesPanelContent />
       break
   }
 
+  useEffect(() => {
+    bridge.send('VKWebAppInit')
+  })
+
   return (
-    <TabIdContext.Provider value={{ activePanel, setActivePanel }}>      
-      <View activePanel="main">
-        <PanelLayout id="main">
-          {currentPanel}
-        </PanelLayout>
-      </View>
-    </TabIdContext.Provider>
+    <View activePanel="main">
+      <PanelLayout 
+        id="main" 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab}
+      >
+        {currentPanel}
+      </PanelLayout>
+    </View>
   )
 }

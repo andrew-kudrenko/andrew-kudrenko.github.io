@@ -2,11 +2,17 @@ import React from 'react'
 import { Div, Panel, PanelHeader } from '@vkontakte/vkui'
 import { PanelProps } from '@vkontakte/vkui/dist/components/Panel/Panel'
 import { Tabbar } from '../navigation/Tabbar'
+import { TabbarItemId } from '../../types'
 
-export const PanelLayout: React.FC<PanelProps> = props =>
+interface IPanelLayoutProps extends PanelProps {
+  activeTab: TabbarItemId
+  setActiveTab: (t: TabbarItemId) => void
+}
+
+export const PanelLayout: React.FC<IPanelLayoutProps> = props =>
   <Panel {...props}>
     <PanelHeader>
-      <Tabbar />
+      <Tabbar {...props} />
     </PanelHeader>
     <Div>
       {props.children}

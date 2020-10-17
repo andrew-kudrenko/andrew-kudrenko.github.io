@@ -1,18 +1,58 @@
-import { Button } from '@vkontakte/vkui'
-import React, { useState } from 'react'
+import { Icon56AddCircleOutline } from '@vkontakte/icons'
+import { Button, FormStatus, Group, Placeholder, PullToRefresh, Spinner } from '@vkontakte/vkui'
+import React, { Dispatch, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { IState } from '../../interfaces'
+import { fetchFilters } from '../../redux/actions'
 import { FilterModal } from '../modals/FilterModal'
 
 export const SourcesPanelContent: React.FC = () => {
+  const dispatch = useDispatch()
   const [modal, setModal] = useState<string | null>(null)
+  const { data, error, loading } = useSelector((state: IState) => state.filters)
+
+  useEffect(() => {
+    dispatch(fetchFilters())
+  }, [])
 
   return (
     <>
       <FilterModal modal={modal} setModal={setModal} />
-      <Button 
-        size="xl"
-        onClick={setModal.bind(null, 'filters')}
-      >Добавить ленту</Button>
-      
+      {
+        error
+          ?
+          <FormStatus
+            mode="error"
+            header="Ошибка при подключении к серверу"
+          >
+            Ошибка при загрузке данных
+          </FormStatus>
+          :
+          true
+            ?
+            <Spinner size="large" />
+            :
+            data.length
+              ?
+              <PullToRefresh isFetching={loading} onRefresh={dispatch.bind(null, fetchFilters())}>
+                <Group>
+                  {
+                    data.map(f => f.title)
+                  }
+                </Group>
+              </PullToRefresh>
+              :
+              <Placeholder
+                icon={<Icon56AddCircleOutline />}
+                header="Персонализированные ленты"
+                action={
+                  <Button size="l" onClick={setModal.bind(null, 'filters')}>
+                    Добавить ленту
+                  </Button>
+                }>
+                Настройте набор источников, из которых хотите получать новости
+              </Placeholder>
+      }
     </>
   )
 }

@@ -1,12 +1,16 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { FixedLayout, Separator, Tabs, HorizontalScroll, TabsItem } from '@vkontakte/vkui'
 import { TabbarItemId } from '../../types'
-import { TabIdContext } from '../../context/TabIdContext'
 
 interface ITabbarItem {
   id: TabbarItemId
   title: string
 }
+
+interface ITabbarProps {
+  activeTab: TabbarItemId
+  setActiveTab: (t: TabbarItemId) => void
+} 
 
 const tabbarItems: ITabbarItem[] = [
   { title: 'Лента', id: 'feed' },
@@ -15,9 +19,7 @@ const tabbarItems: ITabbarItem[] = [
   { title: 'Профиль', id: 'profile' }
 ]
 
-export const Tabbar: React.FC = () => {
-  const { activePanel, setActivePanel } = useContext(TabIdContext)
-
+export const Tabbar: React.FC<ITabbarProps> = ({ activeTab, setActiveTab }) => {
   return (
     <FixedLayout vertical="top">
       <Separator wide />
@@ -26,8 +28,8 @@ export const Tabbar: React.FC = () => {
           {
             tabbarItems.map(t =>
               <TabsItem
-                selected={activePanel === t.id}
-                onClick={setActivePanel.bind(null, t.id)}
+                selected={activeTab === t.id}
+                onClick={setActiveTab.bind(null, t.id)}
                 key={t.id}
               >
                 {t.title}
