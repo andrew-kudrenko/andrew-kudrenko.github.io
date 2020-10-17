@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import { View } from '@vkontakte/vkui'
+import { TabbarItemId } from './types'
+import { TabIdContext } from './context/TabIdContext'
+import { FeedPanelContent } from './components/panels/FeedPanelContent'
+import { PanelLayout } from './components/layouts/PanelLayout'
+import { SourcesPanelContent } from './components/panels/SourcesPanelContent'
 
-function App() {
+export const App: React.FC = () => {
+  const [activePanel, setActivePanel] = useState<TabbarItemId>('feed')
+
+  let currentPanel: React.ReactNode = null
+
+  switch (activePanel) {
+    case 'feed':
+      currentPanel = <FeedPanelContent />
+      break
+    case 'sources':
+      currentPanel = <SourcesPanelContent />
+      break
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <TabIdContext.Provider value={{ activePanel, setActivePanel }}>      
+      <View activePanel="main">
+        <PanelLayout id="main">
+          {currentPanel}
+        </PanelLayout>
+      </View>
+    </TabIdContext.Provider>
+  )
 }
-
-export default App;
