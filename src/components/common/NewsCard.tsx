@@ -1,8 +1,12 @@
 import { Card, Div, Title, Text, Button, Group } from '@vkontakte/vkui'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { INews } from '../../interfaces'
+import { addToFavorites } from '../../redux/actions'
 
 export const NewsCard: React.FC<INews> = props => {
+  const dispatch = useDispatch()
+
   return (
     <Card
       size="l"
@@ -34,7 +38,12 @@ export const NewsCard: React.FC<INews> = props => {
             <source src={props.video} />
           </video>
         }
-        <Button mode="secondary" size="xl" style={{ marginTop: 'auto' }}>В избранное</Button>
+        <Button 
+          mode="secondary" 
+          size="xl" 
+          style={{ marginTop: 'auto' }}
+          onClick={dispatch.bind(null, addToFavorites(props))}
+        >В избранное</Button>
       </Div>
     </Card>
   )

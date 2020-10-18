@@ -1,7 +1,7 @@
 import { Dispatch } from "redux"
 import { ETheme } from "../enums"
-import { IAction, INewsFilter } from "../interfaces"
-import { CREATE_FILTER, FETCH_CATEGORIES, FETCH_CITIES, FETCH_FILTERS, FETCH_NEWS, FETCH_REGIONS, SET_CATEGORIES_LOADING, SET_CATEGORIES_LOADING_ERROR, SET_CITIES_LOADING, SET_CITIES_LOADING_ERROR, SET_FILTERS_LOADING, SET_FILTERS_LOADING_ERROR, SET_NEWS_LOADING, SET_NEWS_LOADING_ERROR, SET_REGIONS_LOADING, SET_REGIONS_LOADING_ERROR, SET_THEME } from "./types"
+import { IAction, INews, INewsFilter } from "../interfaces"
+import { ADD_TO_FAVORITES, CREATE_FILTER, FETCH_CATEGORIES, FETCH_CITIES, FETCH_FILTERS, FETCH_NEWS, FETCH_REGIONS, REMOVE_FROM_FAVORITES, SET_CATEGORIES_LOADING, SET_CATEGORIES_LOADING_ERROR, SET_CITIES_LOADING, SET_CITIES_LOADING_ERROR, SET_FILTERS_LOADING, SET_FILTERS_LOADING_ERROR, SET_NEWS_LOADING, SET_NEWS_LOADING_ERROR, SET_REGIONS_LOADING, SET_REGIONS_LOADING_ERROR, SET_THEME } from "./types"
 
 const apiURI = 'http://195.2.85.245'
 
@@ -102,3 +102,14 @@ export const setFiltersLoadingError = (payload: string) => ({ type: SET_FILTERS_
 export const createFilter = (payload: INewsFilter) => ({ type: CREATE_FILTER, payload })
 
 export const setTheme = (payload: ETheme) => ({ type: SET_THEME, payload })
+
+export const addToFavorites = (payload: INews) => async (dispatch: Dispatch<IAction>) => {
+  dispatch({ type: ADD_TO_FAVORITES, payload })
+  localStorage.setItem('favorites', JSON.stringify(payload))
+}
+export const removeFromFavorites = (payload: string) => async (dispatch: Dispatch<IAction>) => {
+  const json = localStorage.getItem('favorites') || '[]' 
+  dispatch({ type: REMOVE_FROM_FAVORITES, payload })
+  const data = JSON.parse(json)
+  localStorage.setItem('favorites', JSON.stringify(data))
+}

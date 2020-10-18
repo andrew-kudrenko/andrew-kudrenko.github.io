@@ -1,9 +1,10 @@
 import { Icon56AddCircleOutline } from '@vkontakte/icons'
-import { Button, FormStatus, Group, Placeholder, PullToRefresh, Spinner } from '@vkontakte/vkui'
+import { Button, Group, Placeholder, PullToRefresh, Spinner } from '@vkontakte/vkui'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IState } from '../../interfaces'
 import { fetchFilters } from '../../redux/actions'
+import { ErrorNotice } from '../common/ErrorNotice'
 import { FilterCard } from '../common/FilterCard'
 import { FilterModal } from '../modals/FilterModal'
 
@@ -16,14 +17,9 @@ export const SourcesPanelContent: React.FC = () => {
     <>
       <FilterModal modal={modal} setModal={setModal} />
       {
-        false
+        error
           ?
-          <FormStatus
-            mode="error"
-            header="Ошибка при подключении к серверу"
-          >
-            Ошибка при загрузке данных
-          </FormStatus>
+          <ErrorNotice />
           :
           loading
             ?

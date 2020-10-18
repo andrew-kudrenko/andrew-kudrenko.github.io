@@ -48,10 +48,15 @@ export interface IState {
   news: IStatePartial<INews>
   filters: IStatePartial<INewsFilter>
   theme: IStatePartialTheme
+  favorites: IStatePartialFavorites
 }
 
 export interface IStatePartialTheme {
   theme: ETheme
+}
+
+export interface IStatePartialFavorites {
+  favorites: INews[]
 }
 
 export interface IAction extends AnyAction {

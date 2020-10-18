@@ -6,7 +6,7 @@ import { PanelLayout } from './components/layouts/PanelLayout'
 import { SourcesPanelContent } from './components/panels/SourcesPanelContent'
 import bridge from '@vkontakte/vk-bridge'
 import { useDispatch } from 'react-redux'
-import { fetchCategories, fetchNews, fetchRegions } from './redux/actions'
+import { fetchCategories, fetchCities, fetchNews, fetchRegions } from './redux/actions'
 import { FavoritesPanelContent } from './components/panels/FavoritesPanelContent'
 import { ProfilePanelContent } from './components/panels/ProfilePanelContent'
 import { useTheme } from './hooks/useTheme'
@@ -41,13 +41,21 @@ export const App: React.FC = () => {
       .catch(console.log)
   })
 
-  useEffect(dispatch.bind(null, fetchCategories()))
+  useEffect(() => {
+    dispatch(fetchCategories())
+  }, [dispatch])
 
-  // useEffect(dispatch.bind(null, fetchCities()))
+  // useEffect(() => {
+  //   dispatch(fetchCities())
+  // }, [])
 
-  useEffect(dispatch.bind(null, fetchRegions()))
+  useEffect(() => {
+    dispatch(fetchRegions())
+  }, [dispatch])
 
-  useEffect(dispatch.bind(null, fetchNews()))
+  useEffect(() => {
+    dispatch(fetchNews())
+  }, [dispatch])
 
   useEffect(setTheme)
 

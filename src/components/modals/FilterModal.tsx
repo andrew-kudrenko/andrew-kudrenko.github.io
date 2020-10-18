@@ -1,6 +1,6 @@
-import { Icon24Cancel, Icon24Done } from '@vkontakte/icons'
-import { ModalRoot, ModalPage, ModalPageHeader, FormLayout, FormLayoutGroup, Select, Input, PanelHeaderButton, usePlatform, IOS, ANDROID } from '@vkontakte/vkui'
-import React, { ChangeEvent, SyntheticEvent, useState } from 'react'
+import { Icon24Cancel } from '@vkontakte/icons'
+import { ModalRoot, ModalPage, ModalPageHeader, FormLayout, FormLayoutGroup, Select, Input, PanelHeaderButton } from '@vkontakte/vkui'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ICategory, ICity, INewsFilter, IRegion, IState } from '../../interfaces'
 import { createFilter } from '../../redux/actions'
@@ -14,19 +14,17 @@ interface IFilterModalProps {
 export const FilterModal: React.FC<IFilterModalProps> = ({ modal = null, setModal }) => {
   const dispatch = useDispatch()
 
-  const { data: regionsData, loading: regionsLoading, error: regionsError } = useSelector((state: IState) => state.regions)
-  const { data: citiesData, loading: citiesLoading, error: citiesError } = useSelector((state: IState) => state.cities)
-  const { data: categoriesData, loading: categoriesLoading, error: categoriesError } = useSelector((state: IState) => state.categories)
+  const { data: regionsData } = useSelector((state: IState) => state.regions)
+  const { data: citiesData } = useSelector((state: IState) => state.cities)
+  const { data: categoriesData } = useSelector((state: IState) => state.categories)
 
   const [title, setTitle] = useState<string>('')
   const [region, setRegion] = useState<IRegion>()
   const [city, setCity] = useState<ICity>()
   const [source, setSource] = useState<string>('VK')
-  const [date, setDate] = useState<Date>(new Date())
-  const [time, setTime] = useState<Date>(new Date())
+  const [date] = useState<Date>(new Date())
   const [category, setCategory] = useState<ICategory>()
 
-  const platform = usePlatform()
 
   const handleSelectOrInputChange = (callback: (value: any) => void) =>
     (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => callback(event.target.value)
