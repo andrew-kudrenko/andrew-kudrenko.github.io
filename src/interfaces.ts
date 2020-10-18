@@ -1,4 +1,5 @@
 import { AnyAction } from "redux";
+import { ETheme } from "./enums";
 
 export interface ICategory {
   id: string
@@ -25,12 +26,13 @@ export interface INewsFilter {
 }
 
 export interface INews {
-  title: string
-  text?: string
-  image?: string
+  id: string
+  text: string
+  url: string
+  added: string
+  photo?: string
   video?: string
-  source: string
-  date: Date  
+  is_new: boolean
 }
 
 export interface IStatePartial<T> {
@@ -45,6 +47,11 @@ export interface IState {
   cities: IStatePartial<ICity>
   news: IStatePartial<INews>
   filters: IStatePartial<INewsFilter>
+  theme: IStatePartialTheme
+}
+
+export interface IStatePartialTheme {
+  theme: ETheme
 }
 
 export interface IAction extends AnyAction {

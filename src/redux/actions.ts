@@ -1,6 +1,7 @@
 import { Dispatch } from "redux"
+import { ETheme } from "../enums"
 import { IAction, INewsFilter } from "../interfaces"
-import { CREATE_FILTER, FETCH_CATEGORIES, FETCH_CITIES, FETCH_FILTERS, FETCH_NEWS, FETCH_REGIONS, SET_CATEGORIES_LOADING, SET_CATEGORIES_LOADING_ERROR, SET_CITIES_LOADING, SET_CITIES_LOADING_ERROR, SET_FILTERS_LOADING, SET_FILTERS_LOADING_ERROR, SET_NEWS_LOADING, SET_NEWS_LOADING_ERROR, SET_REGIONS_LOADING, SET_REGIONS_LOADING_ERROR } from "./types"
+import { CREATE_FILTER, FETCH_CATEGORIES, FETCH_CITIES, FETCH_FILTERS, FETCH_NEWS, FETCH_REGIONS, SET_CATEGORIES_LOADING, SET_CATEGORIES_LOADING_ERROR, SET_CITIES_LOADING, SET_CITIES_LOADING_ERROR, SET_FILTERS_LOADING, SET_FILTERS_LOADING_ERROR, SET_NEWS_LOADING, SET_NEWS_LOADING_ERROR, SET_REGIONS_LOADING, SET_REGIONS_LOADING_ERROR, SET_THEME } from "./types"
 
 const apiURI = 'http://195.2.85.245'
 
@@ -57,7 +58,7 @@ export const fetchNews = () => async (dispatch: Dispatch<IAction>) => {
     dispatch({ type: SET_NEWS_LOADING, payload: true })
     dispatch({ type: SET_NEWS_LOADING_ERROR, payload: null })
 
-    const response = await fetch(`${apiURI}/news`)
+    const response = await fetch(`${apiURI}/post`)
     const json = await response.json()
 
     dispatch({ type: FETCH_NEWS, payload: json })
@@ -99,3 +100,5 @@ export const setNewsLoadingError = (payload: string) => ({ type: SET_NEWS_LOADIN
 export const setFiltersLoading = (payload: boolean) => ({ type: SET_FILTERS_LOADING, payload })
 export const setFiltersLoadingError = (payload: string) => ({ type: SET_FILTERS_LOADING_ERROR, payload })
 export const createFilter = (payload: INewsFilter) => ({ type: CREATE_FILTER, payload })
+
+export const setTheme = (payload: ETheme) => ({ type: SET_THEME, payload })

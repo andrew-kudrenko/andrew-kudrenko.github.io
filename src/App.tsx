@@ -6,11 +6,15 @@ import { PanelLayout } from './components/layouts/PanelLayout'
 import { SourcesPanelContent } from './components/panels/SourcesPanelContent'
 import bridge from '@vkontakte/vk-bridge'
 import { useDispatch } from 'react-redux'
-import { fetchCategories, fetchRegions } from './redux/actions'
+import { fetchCategories, fetchNews, fetchRegions } from './redux/actions'
 import { FavoritesPanelContent } from './components/panels/FavoritesPanelContent'
+import { ProfilePanelContent } from './components/panels/ProfilePanelContent'
+import { useTheme } from './hooks/useTheme'
 
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabbarItemId>('feed')
+  const { setTheme } = useTheme()
+
   const dispatch = useDispatch()
 
   let currentPanel: React.ReactNode = null
@@ -24,26 +28,31 @@ export const App: React.FC = () => {
       break
     case 'favorites':
       currentPanel = <FavoritesPanelContent />
+      break
+    case 'profile':
+      currentPanel = <ProfilePanelContent />
+      break
   }
 
   useEffect(() => {
     bridge
       .send('VKWebAppInit')
       .then(() => bridge.send('VKWebAppGetPersonalCard'))
-      .then(data => console.log(data))
       .catch(console.log)
   })
 
-  useEffect(() => {
-    // dispatch(fetchFilters())
-    dispatch(fetchCategories())
-    // dispatch(fetchCities())
-    dispatch(fetchRegions())
-    // dispatch(fetchNews())
-  }, [])
+  useEffect(dispatch.bind(null, fetchCategories()))
+
+  // useEffect(dispatch.bind(null, fetchCities()))
+
+  useEffect(dispatch.bind(null, fetchRegions()))
+
+  useEffect(dispatch.bind(null, fetchNews()))
+
+  useEffect(setTheme)
 
   return (
-    <View activePanel="main">
+    <View activePanel="main" >
       <PanelLayout 
         id="main" 
         activeTab={activeTab} 

@@ -2,7 +2,7 @@ import { CardGrid, Group } from '@vkontakte/vkui'
 import React from 'react'
 import { connect, useSelector } from 'react-redux'
 import { IState } from '../../interfaces'
-import { NewsCard } from '../common/Card'
+import { NewsCard } from '../common/NewsCard'
 
 export const FavoritesPanelContent = connect()(() => {
   const { data, error, loading } = useSelector((state: IState) => state.news)
@@ -15,12 +15,6 @@ export const FavoritesPanelContent = connect()(() => {
       flexWrap: 'wrap'
     }}>
 
-      <NewsCard />
-      <NewsCard />
-      <NewsCard />
-      <NewsCard />
-      <NewsCard />
-      <NewsCard />
     </div>
   )
 })
