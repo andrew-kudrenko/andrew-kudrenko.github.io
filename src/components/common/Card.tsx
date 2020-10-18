@@ -15,6 +15,11 @@ export const NewsCard: React.FC = () => {
     <Card 
         size="l" 
         mode="outline"
+        style={{ 
+          minWidth: '300px',
+          maxWidth: '350px', 
+          margin: '.5rem'
+        }}
       >
         <Div>
           <Title level="3" weight="medium" style={{ marginBottom: '.5rem' }}>

@@ -14,7 +14,10 @@ export const PanelLayout: React.FC<IPanelLayoutProps> = props =>
     <PanelHeader>
       <Tabbar {...props} />
     </PanelHeader>
-    <Div>
+    <Div style={{
+      margin: '0 auto',
+      maxWidth: '1200px',
+    }}>
       {props.children}
     </Div>
   </Panel>

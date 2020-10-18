@@ -14,7 +14,7 @@ interface ITabbarProps {
 
 const tabbarItems: ITabbarItem[] = [
   { title: 'Лента', id: 'feed' },
-  { title: 'Источники', id: 'sources' },
+  { title: 'Платформы', id: 'sources' },
   { title: 'Избранное', id: 'favorites' },
   { title: 'Профиль', id: 'profile' }
 ]

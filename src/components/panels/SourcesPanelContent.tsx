@@ -1,9 +1,10 @@
 import { Icon56AddCircleOutline } from '@vkontakte/icons'
 import { Button, FormStatus, Group, Placeholder, PullToRefresh, Spinner } from '@vkontakte/vkui'
-import React, { Dispatch, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { IState } from '../../interfaces'
 import { fetchFilters } from '../../redux/actions'
+import { FilterCard } from '../common/FilterCard'
 import { FilterModal } from '../modals/FilterModal'
 
 export const SourcesPanelContent: React.FC = () => {
@@ -11,15 +12,11 @@ export const SourcesPanelContent: React.FC = () => {
   const [modal, setModal] = useState<string | null>(null)
   const { data, error, loading } = useSelector((state: IState) => state.filters)
 
-  useEffect(() => {
-    dispatch(fetchFilters())
-  }, [])
-
   return (
     <>
       <FilterModal modal={modal} setModal={setModal} />
       {
-        error
+        false
           ?
           <FormStatus
             mode="error"
@@ -28,19 +25,24 @@ export const SourcesPanelContent: React.FC = () => {
             Ошибка при загрузке данных
           </FormStatus>
           :
-          true
+          loading
             ?
             <Spinner size="large" />
             :
             data.length
               ?
-              <PullToRefresh isFetching={loading} onRefresh={dispatch.bind(null, fetchFilters())}>
-                <Group>
-                  {
-                    data.map(f => f.title)
-                  }
-                </Group>
-              </PullToRefresh>
+              <>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+                  <Button size="l" onClick={setModal.bind(null, 'filters')}>
+                    Добавить ленту
+                  </Button>
+                </div>
+                <PullToRefresh isFetching={loading} onRefresh={dispatch.bind(null, fetchFilters())}>
+                  <Group>
+                    {data.map(f => <FilterCard {...f} />)}
+                  </Group>
+                </PullToRefresh>
+              </>
               :
               <Placeholder
                 icon={<Icon56AddCircleOutline />}

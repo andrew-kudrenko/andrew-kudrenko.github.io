@@ -1,6 +1,6 @@
 import { Dispatch } from "redux"
-import { IAction } from "../interfaces"
-import { FETCH_CATEGORIES, FETCH_CITIES, FETCH_FILTERS, FETCH_NEWS, SET_CATEGORIES_LOADING, SET_CATEGORIES_LOADING_ERROR, SET_CITIES_LOADING, SET_CITIES_LOADING_ERROR, SET_FILTERS_LOADING, SET_FILTERS_LOADING_ERROR, SET_NEWS_LOADING, SET_NEWS_LOADING_ERROR, SET_REGIONS_LOADING, SET_REGIONS_LOADING_ERROR } from "./types"
+import { IAction, INewsFilter } from "../interfaces"
+import { CREATE_FILTER, FETCH_CATEGORIES, FETCH_CITIES, FETCH_FILTERS, FETCH_NEWS, FETCH_REGIONS, SET_CATEGORIES_LOADING, SET_CATEGORIES_LOADING_ERROR, SET_CITIES_LOADING, SET_CITIES_LOADING_ERROR, SET_FILTERS_LOADING, SET_FILTERS_LOADING_ERROR, SET_NEWS_LOADING, SET_NEWS_LOADING_ERROR, SET_REGIONS_LOADING, SET_REGIONS_LOADING_ERROR } from "./types"
 
 const apiURI = 'http://195.2.85.245'
 
@@ -22,17 +22,17 @@ export const fetchCategories = () => async (dispatch: Dispatch<IAction>) => {
 
 export const fetchRegions = () => async (dispatch: Dispatch<IAction>) => {
   try {
-    dispatch({ type: SET_CATEGORIES_LOADING, payload: true })
-    dispatch({ type: SET_CATEGORIES_LOADING_ERROR, payload: null })
+    dispatch({ type: SET_REGIONS_LOADING, payload: true })
+    dispatch({ type: SET_REGIONS_LOADING_ERROR, payload: null })
 
     const response = await fetch(`${apiURI}/region`)
     const json = await response.json()
 
-    dispatch({ type: FETCH_CATEGORIES, payload: json })
+    dispatch({ type: FETCH_REGIONS, payload: json })
   } catch (e) {
-    dispatch({ type: SET_CATEGORIES_LOADING_ERROR, payload: e.message })
+    dispatch({ type: SET_REGIONS_LOADING_ERROR, payload: e.message })
   } finally {
-    dispatch({ type: SET_CATEGORIES_LOADING, payload: false })
+    dispatch({ type: SET_REGIONS_LOADING, payload: false })
   }
 }
 
@@ -41,7 +41,7 @@ export const fetchCities = () => async (dispatch: Dispatch<IAction>) => {
     dispatch({ type: SET_CITIES_LOADING, payload: true })
     dispatch({ type: SET_CITIES_LOADING_ERROR, payload: null })
 
-    const response = await fetch(`${apiURI}/cities`)
+    const response = await fetch(`${apiURI}/city`)
     const json = await response.json()
 
     dispatch({ type: FETCH_CITIES, payload: json })
@@ -80,7 +80,7 @@ export const fetchFilters = () => async (dispatch: Dispatch<IAction>) => {
   } catch (e) {
     dispatch({ type: SET_FILTERS_LOADING_ERROR, payload: e.message })
   } finally {
-    dispatch({ type: SET_NEWS_LOADING, payload: false })
+    dispatch({ type: SET_FILTERS_LOADING, payload: false })
   }
 }
 
@@ -98,3 +98,4 @@ export const setNewsLoadingError = (payload: string) => ({ type: SET_NEWS_LOADIN
 
 export const setFiltersLoading = (payload: boolean) => ({ type: SET_FILTERS_LOADING, payload })
 export const setFiltersLoadingError = (payload: string) => ({ type: SET_FILTERS_LOADING_ERROR, payload })
+export const createFilter = (payload: INewsFilter) => ({ type: CREATE_FILTER, payload })

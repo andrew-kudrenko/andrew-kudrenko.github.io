@@ -17,11 +17,11 @@ export interface ICity {
 
 export interface INewsFilter {
   title: string
-  date: Date
-  region: IRegion
-  city: ICity
-  category: ICategory
-  source: string
+  date?: Date
+  region?: IRegion
+  city?: ICity
+  category?: ICategory
+  source?: string
 }
 
 export interface INews {

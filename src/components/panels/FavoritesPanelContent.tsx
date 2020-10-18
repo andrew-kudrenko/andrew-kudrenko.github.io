@@ -4,7 +4,7 @@ import { connect, useSelector } from 'react-redux'
 import { IState } from '../../interfaces'
 import { NewsCard } from '../common/Card'
 
-export const FeedPanelContent = connect()(() => {
+export const FavoritesPanelContent = connect()(() => {
   const { data, error, loading } = useSelector((state: IState) => state.news)
   return (
     <div style={{
